@@ -1,5 +1,67 @@
-[gd_scene format=3 uid="uid://b0rrl6c142806"]
+[gd_scene format=3 uid="uid://crsq8ev3uuqq7"]
+
+[ext_resource type="Script" uid="uid://20737r4ervmc" path="res://player.cs" id="1_80nbo"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_80nbo"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_e2o6t"]
+sky_material = SubResource("ProceduralSkyMaterial_80nbo")
+
+[sub_resource type="Environment" id="Environment_feb5d"]
+background_mode = 2
+sky = SubResource("Sky_e2o6t")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_80nbo"]
+albedo_color = Color(0.56719434, 0.8075716, 0.39481962, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_e2o6t"]
+material = SubResource("StandardMaterial3D_80nbo")
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_80nbo"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_80nbo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_80nbo"]
 
 [node name="Game" type="Node" unique_id=586342078]
 
 [node name="World" type="Node3D" parent="." unique_id=627618437]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="World" unique_id=622033036]
+environment = SubResource("Environment_feb5d")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World" unique_id=1216354654]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="World" unique_id=721599309]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Floor" unique_id=1276425914]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.091041565, 0.042570114, -0.050379753)
+mesh = SubResource("BoxMesh_e2o6t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Floor" unique_id=874866816]
+shape = SubResource("BoxShape3D_80nbo")
+
+[node name="PlayerSpawner" type="Node3D" parent="World" unique_id=2140198475]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="World/PlayerSpawner" unique_id=945553192]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("1_80nbo")
+
+[node name="Pivot" type="Node3D" parent="World/PlayerSpawner/CharacterBody3D" unique_id=786517156]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66973615, 0)
+
+[node name="Camera3D" type="Camera3D" parent="World/PlayerSpawner/CharacterBody3D/Pivot" unique_id=402545730]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/PlayerSpawner/CharacterBody3D" unique_id=1093157363]
+mesh = SubResource("CapsuleMesh_80nbo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/PlayerSpawner/CharacterBody3D" unique_id=1012419097]
+shape = SubResource("CapsuleShape3D_80nbo")
