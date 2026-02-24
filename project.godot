@@ -11,12 +11,16 @@ config_version=5
 [application]
 
 config/name="Trailer Park Trash"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [dotnet]
 
 project/assembly_name="Trailer Park Trash"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/GodotTogether/plugin.cfg")
 
 [physics]
 
