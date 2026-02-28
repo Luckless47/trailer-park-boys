@@ -23,7 +23,6 @@ public partial class WaveManager : Node
 			speed = 1
 		}
 	};
-	
 	private List<(int, int)[]> _waves = new() {
 		new (int, int)[] {
 			(0, 5),
