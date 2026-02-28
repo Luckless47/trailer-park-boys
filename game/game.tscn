@@ -1,10 +1,9 @@
 [gd_scene format=3 uid="uid://crsq8ev3uuqq7"]
 
-[ext_resource type="Script" uid="uid://20737r4ervmc" path="res://player/Player.cs" id="1_80nbo"]
-[ext_resource type="Script" uid="uid://c4iytxyjas5dh" path="res://WaveManager.cs" id="2_feb5d"]
-[ext_resource type="PackedScene" uid="uid://cu27aau2d2n6i" path="res://enemy/enemy.tscn" id="3_feb5d"]
-[ext_resource type="Script" uid="uid://drplrdeibsfjt" path="res://TowerManager.cs" id="4_fc0e3"]
-[ext_resource type="PackedScene" uid="uid://dgc4qq1gbns2g" path="res://tower.tscn" id="5_7jktm"]
+[ext_resource type="PackedScene" uid="uid://miemsbdisyod" path="res://player/player.tscn" id="1_4fuuu"]
+[ext_resource type="Script" uid="uid://c4iytxyjas5dh" path="res://wave/WaveManager.cs" id="2_dxrkv"]
+[ext_resource type="PackedScene" uid="uid://cu27aau2d2n6i" path="res://enemy/enemy.tscn" id="3_dakft"]
+[ext_resource type="Script" uid="uid://drplrdeibsfjt" path="res://tower/TowerManager.cs" id="4_u5opy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_80nbo"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -37,10 +36,6 @@ disable_receive_shadows = true
 [sub_resource type="BoxMesh" id="BoxMesh_feb5d"]
 material = SubResource("StandardMaterial3D_feb5d")
 size = Vector3(100, 1, 100)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_80nbo"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_80nbo"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_80nbo"]
 
@@ -86,21 +81,7 @@ shape = SubResource("BoxShape3D_80nbo")
 [node name="PlayerSpawner" type="Node3D" parent="World" unique_id=2140198475]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0001087, 29, 0.42593765)
 
-[node name="Player" type="CharacterBody3D" parent="World/PlayerSpawner" unique_id=945553192 node_paths=PackedStringArray("_camera", "_pivot")]
-script = ExtResource("1_80nbo")
-_camera = NodePath("Pivot/Camera3D")
-_pivot = NodePath("Pivot")
-
-[node name="Pivot" type="Node3D" parent="World/PlayerSpawner/Player" unique_id=786517156]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66973615, 0)
-
-[node name="Camera3D" type="Camera3D" parent="World/PlayerSpawner/Player/Pivot" unique_id=402545730]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="World/PlayerSpawner/Player" unique_id=1093157363]
-mesh = SubResource("CapsuleMesh_80nbo")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/PlayerSpawner/Player" unique_id=1012419097]
-shape = SubResource("CapsuleShape3D_80nbo")
+[node name="Player" parent="World/PlayerSpawner" unique_id=652148093 instance=ExtResource("1_4fuuu")]
 
 [node name="Walls" type="Node3D" parent="World" unique_id=684612289]
 
@@ -185,9 +166,9 @@ mesh = SubResource("BoxMesh_80nbo")
 shape = SubResource("BoxShape3D_e2o6t")
 
 [node name="WaveManager" type="Node" parent="World" unique_id=1049421656 node_paths=PackedStringArray("_spawnPath", "_startWaveButton")]
-script = ExtResource("2_feb5d")
+script = ExtResource("2_dxrkv")
 _spawnPath = NodePath("EnemySpawner/Path3D")
-_enemyScene = ExtResource("3_feb5d")
+_enemyScene = ExtResource("3_dakft")
 _startWaveButton = NodePath("CanvasLayer/Control/Button")
 
 [node name="EnemySpawner" type="Node3D" parent="World/WaveManager" unique_id=1877594987]
@@ -201,7 +182,7 @@ debug_custom_color = Color(1, 0, 0.7647059, 1)
 [node name="PathFollow3D" type="PathFollow3D" parent="World/WaveManager/EnemySpawner/Path3D" unique_id=1765216107]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="Enemy" parent="World/WaveManager/EnemySpawner/Path3D/PathFollow3D" unique_id=190485547 instance=ExtResource("3_feb5d")]
+[node name="Enemy" parent="World/WaveManager/EnemySpawner/Path3D/PathFollow3D" unique_id=190485547 instance=ExtResource("3_dakft")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="World/WaveManager" unique_id=103099477]
 
@@ -219,6 +200,4 @@ focus_mode = 0
 text = "Start Wave"
 
 [node name="TowerManager" type="Node" parent="World" unique_id=253316083]
-script = ExtResource("4_fc0e3")
-
-[node name="Tower" parent="World/TowerManager" unique_id=635693856 instance=ExtResource("5_7jktm")]
+script = ExtResource("4_u5opy")

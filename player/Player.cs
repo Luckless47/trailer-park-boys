@@ -10,10 +10,12 @@ public partial class Player : CharacterBody3D
 	public const float Sensitivity = 0.002f;
 	public float CameraPitch { get; set; } = 0.0f;
 	public float CameraYaw { get; set; } = 0.0f;
+	private bool disableRotation = false;
 	
 	[ExportGroup("Nodes")]
 	[Export] private Camera3D _camera;
 	[Export] private Node3D _pivot;
+	[Export] private Node3D _armature;
 
 
 
@@ -43,7 +45,7 @@ public partial class Player : CharacterBody3D
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
-		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+		Vector3 direction = (_armature.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 		if (direction != Vector3.Zero)
 		{
 			velocity.X = direction.X * Speed;
@@ -58,9 +60,14 @@ public partial class Player : CharacterBody3D
 		Velocity = velocity;
 		MoveAndSlide();
 
-		_pivot.Rotation = new Vector3(CameraPitch, 0, 0);
-		Rotation = new Vector3(0, CameraYaw, 0);
+		_pivot.Rotation = new Vector3(0, CameraYaw, 0);
+		_camera.Rotation = new Vector3(CameraPitch, 0, 0);
 
+		if (!disableRotation)
+		{
+			_armature.Rotation = new Vector3(0, CameraYaw, 0);
+		}
+		
 
 	}
 	public override void _Input(InputEvent @event)
@@ -78,6 +85,15 @@ public partial class Player : CharacterBody3D
 		if (@event.IsActionPressed("ui_accept"))
 		{
 			Input.SetMouseMode(Input.MouseModeEnum.Captured);
+		}
+		if(@event.IsActionPressed("free_look"))
+		{
+			disableRotation = true;
+		}
+		if(@event.IsActionReleased("free_look"))
+		{
+			CameraYaw = _armature.Rotation.Y;
+			disableRotation = false;
 		}
 	}
 	

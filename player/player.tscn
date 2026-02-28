@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://miemsbdisyod"]
+
+[ext_resource type="Script" uid="uid://20737r4ervmc" path="res://player/Player.cs" id="1_4flbx"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_80nbo"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_80nbo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fc0e3"]
+albedo_color = Color(1, 0.09019608, 0.23529412, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_oul6g"]
+material = SubResource("StandardMaterial3D_fc0e3")
+top_radius = 0.6
+bottom_radius = 0.6
+height = 0.25
+
+[sub_resource type="BoxMesh" id="BoxMesh_oul6g"]
+size = Vector3(0.1, 0.1, 1)
+
+[node name="Player" type="CharacterBody3D" unique_id=652148093 node_paths=PackedStringArray("_camera", "_pivot", "_armature")]
+script = ExtResource("1_4flbx")
+_camera = NodePath("Pivot/Camera3D")
+_pivot = NodePath("Pivot")
+_armature = NodePath("Armature")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=656837008]
+shape = SubResource("CapsuleShape3D_80nbo")
+
+[node name="Pivot" type="Node3D" parent="." unique_id=540867853]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66973615, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Pivot" unique_id=645918967]
+
+[node name="Armature" type="Node3D" parent="." unique_id=821347053]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Armature" unique_id=843879041]
+mesh = SubResource("CapsuleMesh_80nbo")
+
+[node name="ToolBelt" type="Node3D" parent="Armature" unique_id=883156150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.26927757, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Armature/ToolBelt" unique_id=946371251]
+mesh = SubResource("CylinderMesh_oul6g")
+
+[node name="TowerPlacer" type="Node3D" parent="Armature/ToolBelt" unique_id=598048176]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.28295994, -0.15442526, -0.5776675)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Armature/ToolBelt/TowerPlacer" unique_id=302469819]
+mesh = SubResource("BoxMesh_oul6g")
